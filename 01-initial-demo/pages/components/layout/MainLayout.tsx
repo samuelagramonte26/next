@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC, ReactNode } from 'react'
 import { NavBar } from '../NavBar'
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
@@ -7,7 +7,7 @@ import style from "../compnents.module.css"
 import Image from 'next/image'
 const inter = Inter({ subsets: ['latin'] })
 
-export const MainLayout = ({ children }) => {
+export const MainLayout:FC<{ children: React.ReactNode[] | ReactNode}> = ({children})  => {
     return (
         <div className={style.menu}>
             <Head>
