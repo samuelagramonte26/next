@@ -1,5 +1,5 @@
-import { DartLayout } from './components/layout/DartLayout'
-import { MainLayout } from './components/layout/MainLayout'
+import  DartLayout  from '../components/layout/DartLayout'
+import  MainLayout  from '../components/layout/MainLayout'
 
 export default function AboutPage() {
   return (

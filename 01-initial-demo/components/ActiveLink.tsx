@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { CSSProperties, FC } from "react";
+import { CSSProperties } from "react";
 
 const style:CSSProperties ={
     
@@ -12,7 +12,7 @@ interface props{
   href:string;
 }
 
-export const ActiveLink:FC<props> = ({text,href}) => {
+ const ActiveLink = ({text,href}: props) => {
    const {asPath} = useRouter();
  
   return (
@@ -21,3 +21,4 @@ export const ActiveLink:FC<props> = ({text,href}) => {
    </Link>
   )
 }
+export default ActiveLink;

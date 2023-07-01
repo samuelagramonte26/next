@@ -1,4 +1,4 @@
-import { ActiveLink } from './ActiveLink'
+import  ActiveLink  from './ActiveLink'
 
 const menuItems = [
   {
@@ -19,7 +19,7 @@ const menuItems = [
   },
 ];
 
-export const NavBar = () => {
+ const NavBar = () => {
   return (
     <nav>
       {
@@ -30,3 +30,4 @@ export const NavBar = () => {
     </nav>
   )
 }
+export default NavBar

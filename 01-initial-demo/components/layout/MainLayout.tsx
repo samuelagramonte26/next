@@ -1,13 +1,13 @@
 import React, { FC, ReactNode } from 'react'
-import { NavBar } from '../NavBar'
+import  NavBar  from '../NavBar'
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
-import styles from '../../../styles/Home.module.css'
+import styles from '../../styles/Home.module.css'
 import style from "../compnents.module.css"
 import Image from 'next/image'
 const inter = Inter({ subsets: ['latin'] })
 
-export const MainLayout:FC<{ children: React.ReactNode[] | ReactNode}> = ({children})  => {
+ const MainLayout:FC<{ children: React.ReactNode[] | ReactNode}> = ({children})  => {
     return (
         <div className={style.menu}>
             <Head>
@@ -33,3 +33,4 @@ export const MainLayout:FC<{ children: React.ReactNode[] | ReactNode}> = ({child
         </div>
     )
 }
+export default MainLayout

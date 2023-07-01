@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react"
 
-export const DartLayout:FC<{ children: React.ReactNode[] | ReactNode}> = ({children}) => {
+ const DartLayout:FC<{ children: React.ReactNode[] | ReactNode}> = ({children}) => {
   return (
     <div style={{
         padding:'10px',
@@ -12,3 +12,4 @@ export const DartLayout:FC<{ children: React.ReactNode[] | ReactNode}> = ({child
     </div>
   )
 }
+export default DartLayout
