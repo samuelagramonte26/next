@@ -10,7 +10,7 @@ export const NavBar = () => {
         alignItems:'center',
         justifyContent:'start',
         padding:'0px 20px',
-        backgroundColor:theme?.colors.gray900.value
+        backgroundColor:theme?.colors.gray100.value
     }}>
         <Image
             width={70}
