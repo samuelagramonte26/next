@@ -10,7 +10,6 @@ interface props {
   pokemons: SmallResull[]
 }
 const HomePage: NextPage<props> = ({ pokemons }) => {
-  console.log(pokemons);
 
   return (
     <MainLayout titlePage='Listado de pokemon'>
@@ -29,12 +28,13 @@ const HomePage: NextPage<props> = ({ pokemons }) => {
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { data } = await pokeApi.get<PokemonListResponse>('/pokemon?limit=151');
-  
+
   const pokemons: SmallResull[] = data.results.map((poke, i) => ({
     ...poke,
     id: i + 1,
     img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${i + 1}.svg`
   }));
+  
   return {
     props: {
       pokemons
