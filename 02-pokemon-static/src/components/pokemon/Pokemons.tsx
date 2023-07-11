@@ -7,7 +7,7 @@ export const Pokemons = ({pokemonsIds}:{pokemonsIds:number[]}) => {
     <Grid.Container gap={2} direction="row" justify="flex-start">
 
     {
-      pokemonsIds.map(id => (<FavoriteCardPokemmon id={id} key={id}/>))
+      pokemonsIds.map(id => (                                              <FavoriteCardPokemmon id={id} key={id}/>))
     }
 
   </Grid.Container>

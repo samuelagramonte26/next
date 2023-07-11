@@ -1,16 +1,18 @@
-import { useState } from "react";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next"
-import { Button, Card, Container, Grid, Image, Text } from "@nextui-org/react";
-import { Pokemon } from "../../../interfaces";
-import { pokeApi } from "@/api";
-import { MainLayout } from "@/components/layout";
-import { getPokemonByIdOrName, localFavorites } from "@/utils";
-import confetti from 'canvas-confetti'
+import { Pokemon, PokemonListResponse, SmallResull } from "../../../interfaces"
+import { MainLayout } from "@/components/layout"
+import { Button, Card, Container, Grid, Image, Text } from "@nextui-org/react"
+import { useState } from "react"
+import { getPokemonByIdOrName, localFavorites } from "@/utils"
+import confetti from "canvas-confetti"
+import { pokeApi } from "@/api"
+
 
 interface props {
   pokemon: Pokemon
 }
-const PokemonPage: NextPage<props> = ({ pokemon }) => {
+
+const PokemonByNamePage: NextPage<props> = ({ pokemon }) => {
 
   const [isFavorite, setFavorites] = useState<boolean>(localFavorites.isFavorite(pokemon.id))
   const toggleFavorites = () => {
@@ -101,41 +103,37 @@ const PokemonPage: NextPage<props> = ({ pokemon }) => {
   )
 }
 
-
 export const getStaticProps: GetStaticProps = async ({ params }) => {
 
-  const { id } = params as { id: string };
-
-  const pokemon = await getPokemonByIdOrName(id);
-
-  if(!pokemon)
-  {
-    return {
-      redirect:{
-        destination:'/',
-        permanent:false
+  const { name: Name } = params as { name: string };
+  const response = await getPokemonByIdOrName(Name);
+  if(!response){
+      return {
+        redirect:{
+          destination:'/',
+          permanent:false
+        }
       }
-    }
   }
 
+  const { id, name, sprites } =response!;
+  const pokemon = { id, name, sprites }
   return {
     props: {
       pokemon
-    },
-    revalidate:86400
+    }
   }
 }
 
-export const getStaticPaths: GetStaticPaths = () => {
+export const getStaticPaths: GetStaticPaths = async () => {
 
-  const pokemonsIds = [...Array(151)].map((_value, index) => (index + 1).toString())
+  const pokemons = (await pokeApi.get<PokemonListResponse>('/pokemon?limit=151')).data;
 
   return {
-    paths: pokemonsIds.map((id) => ({
-      params: { id }
+    paths: pokemons.results.map(({ name }: SmallResull) => ({
+      params: { name }
     })),
     fallback: 'blocking'
   }
 }
-
-export default PokemonPage;
+export default PokemonByNamePage
