@@ -33,7 +33,7 @@ export const EntryCard = ({ entry }: props) => {
         </CardContent>
 
         <CardActions sx={{ display: 'flex', justifyContent: 'end', paddingRight: 2 }}>
-          <Typography variant="body2">{new Date(entry.createdAt).getMinutes()}</Typography>
+          <Typography variant="body2"></Typography>
         </CardActions>
       </CardActionArea>
 
