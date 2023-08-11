@@ -20,31 +20,42 @@ export const EntriesProvider = ({ children }: { children: JSX.Element | JSX.Elem
 
 
     const refreshEntries = async () => {
-        const {data} = await entriesApi.get<Entry[]>('/entries')
-       dispatch({
-        type:'[Entry] - Load-Entry',
-        payload:data
-       })
-        
+        const { data } = await entriesApi.get<Entry[]>('/entries')
+        dispatch({
+            type: '[Entry] - Load-Entry',
+            payload: data
+        })
+
     }
 
     useEffect(() => {
         refreshEntries()
     }, [])
 
-    const addNewEntry = (description: string) => {
+    const addNewEntry = async (description: string) => {
 
-        const newEntry: Entry = {
-            _id: uuidv4(),
-            description,
-            createdAt: Date.now(),
-            status: 'pending'
+
+
+
+        try {
+
+            const { data } = await entriesApi.post<Entry>('/entries', { description })
+
+
+            dispatch({ type: '[Entry] - Add-Entry', payload: data })
+        } catch (error) {
+
         }
-
-        dispatch({ type: '[Entry] - Add-Entry', payload: newEntry })
     }
-    const updateEntry = (entry: Entry) => {
-        dispatch({ type: '[Entry] - Update-Entry', payload: entry })
+    const updateEntry = async (entry: Entry) => {
+
+        try {
+            await entriesApi.put(`/entries/${entry._id}`, { status: entry.status })
+            dispatch({ type: '[Entry] - Update-Entry', payload: entry })
+        } catch (error) {
+            console.log({ error });
+
+        }
     }
     return (
         <EntriesContext.Provider value={{
