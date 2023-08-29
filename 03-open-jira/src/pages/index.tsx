@@ -11,7 +11,7 @@ export default function Home() {
         <Grid item xs={12} sm={4} >
           <Card sx={{ height: 'calc(100vh - 100px)' }}>
             <CardHeader title='Pendientes' />
-      <NewEntry/>
+            <NewEntry />
 
             <CardContent>
               <EntryList status='pending' />
