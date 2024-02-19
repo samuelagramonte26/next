@@ -1,11 +1,19 @@
-import React from 'react'
+import { CartCounter } from "@/app/shopping-cart";
 
-const CounterPage = () => {
+export const metadata = {
+ title: 'Shopping Cart',
+ description: 'Un simple contador',
+};
+
+
+export default function CounterPage() {
+
+
   return (
-    <>
-    <h1>Hola mundo</h1>
-    </>
-  )
+    <div className="flex flex-col items-center justify-center w-full h-full">
+      <span>Productos en el carrito</span>
+      <CartCounter value={ 20 } />
+      
+    </div>
+  );
 }
-
-export default CounterPage
