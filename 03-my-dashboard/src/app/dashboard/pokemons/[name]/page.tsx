@@ -3,45 +3,40 @@ import { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-
 interface Props {
-    params: { id: string };
+    params: { name: string };
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    try {
-        const { id, name } = await getPokemonById(params.id)
-        return {
-            title: `#${id} - ${name}`,
-            description: `Pagina del pokemon ${name}`
-        }
-    } catch (error) {
-        return {
-            title: 'Pokemon',
-            description: 'pokemon'
-        }
-    }
-}
-
-const getPokemonById = async (id: string): Promise<Pokemon> => {
+const getPokemonByName = async (name: string): Promise<Pokemon> => {
     try {
 
-
-        const pokemon: Pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, {
-            cache: 'force-cache'
+        const pokemon: Pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`, {
+            next: {
+                revalidate: 20
+            }
         }).then(res => res.json())
         return pokemon;
     } catch (error) {
-        notFound();
+        return notFound();
+    }
+
+}
+
+export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
+
+    const pokemon = await getPokemonByName(params.name);
+
+
+    return {
+        title: pokemon.name,
+        description: `Pagina de pokemon ${pokemon.name}`
     }
 }
 
 
-export default async function PokemonPage({ params }: Props) {
 
-    const pokemon = await getPokemonById(params.id);
-
-
+export default async function PokemonByNamePage({ params }: Props) {
+    const pokemon = await getPokemonByName(params.name);
     return (
         <div className="flex mt-5 flex-col items-center text-slate-800">
             <div className="relative flex flex-col items-center rounded-[20px] w-[700px] mx-auto bg-white bg-clip-border  shadow-lg  p-3">
@@ -137,5 +132,5 @@ export default async function PokemonPage({ params }: Props) {
                 </div>
             </div>
         </div>
-    );
+    )
 }
