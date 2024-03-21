@@ -1,16 +1,27 @@
 'use client';
 
-import { useState } from 'react';
+import { ResponseJson } from '@/app/api/counter/route';
+import { RootState, useAppDispatch, useAppSelector } from '@/store';
+import { decrement, increment, initialicedState } from '@/store/counter/counterSlice';
+import { useEffect } from 'react';
 
-interface Props {
-  value?: number;
+const getCounterValue = async (): Promise<number> => {
+
+
+  const response: ResponseJson = await fetch('/api/counter').then(res => res.json());
+
+  return response.count;
 }
 
 
+export const CartCounter = () => {
 
-export const CartCounter = ({  value = 0 }: Props) => {
+  const count = useAppSelector((state: RootState) => state.counter.count)
+  const dispatch = useAppDispatch()
 
-  const [count, setCount] = useState(value);
+  useEffect(() => {
+    getCounterValue().then(res => dispatch(initialicedState(res)))
+  }, [dispatch])
 
   return (
     <>
@@ -18,13 +29,13 @@ export const CartCounter = ({  value = 0 }: Props) => {
 
       <div className="flex">
         <button
-          onClick={() => setCount(count + 1)}
+          onClick={() => dispatch(increment())}
           className="flex items-center justify-center p-2 rounded-xl bg-gray-900 text-white hover:bg-gray-600 transition-all w-[100px] mr-2">
           +1
         </button>
 
         <button
-          onClick={() => setCount(count - 1)}
+          onClick={() => dispatch(decrement())}
           className="flex items-center justify-center p-2 rounded-xl bg-gray-900 text-white hover:bg-gray-600 transition-all w-[100px] mr-2">
           -1
         </button>
